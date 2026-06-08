@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Jatere Barber — Sistema de Gestión</title>
+<meta name="description" content="Barbería premium en Capiata, Paraguay. Reservá tu turno online."/>
+<link rel="stylesheet" href="main.css"/>
+<link rel="icon" type="image/jpeg" href="data:image/jpeg;base64,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"/>
+</head>
+<body>
+
+<!-- ══ NAVBAR ═════════════════════════════════════════════ -->
+<nav class="nav" id="main-nav">
+  <div class="nav-logo" onclick="showPage('inicio')">
+    <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/7QCEUGhvdG9zaG9wIDMuMAA4QklNBAQAAAAAAGgcAigAYkZCTUQwYTAwMGFiNDAxMDAwMGRkMDIwMDAwZDcwMzAwMDA0YTA0MDAwMGVmMDQwMDAwNWQwNjAwMDAzNTA4MDAwMDhlMDgwMDAwMDQwOTAwMDA2ZjA5MDAwMDJjMGIwMDAwAP/bAIQABQYGCwgLCwsLCw0LCwsNDg4NDQ4ODw0ODg4NDxAQEBEREBAQEA8TEhMPEBETFBQTERMWFhYTFhUVFhkWGRYWEgEFBQUKBwoICQkICwgKCAsKCgkJCgoMCQoJCgkMDQsKCwsKCw0MCwsICwsMDAwNDQwMDQoLCg0MDQ0MExQTExOc/8IAEQgAlgCWAwEiAAIRAQMRAf/EAH8AAQABBQEAAAAAAAAAAAAAAAAHAQIDBAUGEAABAgIECggCCQUAAAAAAAABAhEAAwQSITETMDIzQEFRYYGxBSAiQnGCocEQkSM0Q1BgYtHh8BRSU3LxEQACAQIEBQQDAQEAAAAAAAABEQAhMUFRYXEwgaGx8ECRweEQIFDR8f/aAAwDAQACAAMAAAABhwAAqUAAAAAAmOHJjIcAvs9JZd3fT+Q42jtd7w0k8fLi8SNzAAAAAmOHJjIcA7fEutr7jwsm+B18ujtajZwqqVVoqUAAAmOHJjIcAB29/m7utm829RzsuPkPUblt3i3pr608tT1lKPK09dxLnMGSxMcOTGQ4AVOru6O5r5ehob2lbd0sWXHZdzNnV6eSzNXBXHfn8r6nz2SzkjZwpjhyYyHACp09rU2cGXJwHqrrfKu5hupyXW6dK+WegtOA2da+wKkxw5MZDgAOlsaufDk5FaM2OtAAAAATHDkxkOAA382DNiycsZcYAAAACY4cmMhwAFa2gAAAAABMcOTGQ4mMQ4mMQ4mMQ4mMQ4mMQ4mMQ4mMQ4mMQ4mMQ5MYf//aAAgBAQABBQL7pAeJPR6EwmhUdQn9GpJUkpOOoA7VMnVIlU5SCOkZK46TpKZuPoamV0lLcfDCdnHAtFDnCaKRJwS9BoamV0oXnaDRMvpLO0SUlUuiSwtdJlIkzZYlLlycHNmLXKSuQhGBVJRNlIQgSJq0KHXouX0jnaFmqMg1KckqlUb6vQM9SsFWooBo9IajSpdX+lnVH69Fy+kM7Q8yomXJkkzZFGzFAzs2hlcyV9Wz1Hlor0abR8Enr0XLp+dM4IlaBRsunZ2CsVKMpKBJZEykLCopSwRW+io8wJTMLqxFGy6bndBo+XTM7oNHy6XnNBkZdKzn4G//2gAIAQMAAT8BxaEuQIrITY3vExCbwR4DEJLEGJw723FdzjFTJ/NGDvDiz2iprcbNcYPk7QUNr39XueaNSdwPNo1vtSeTQMm57faNW+r/ANhYsFmoW9Xueb2jK3NFW62/0irfbdFW63rdzze2K7vm9tM//9oACAECAAE/AcWtVUE7IwcyYKwWfB2iTMW4SpJ8T+uvniFJrAjbFHUzoN6bvD9sV9r5T7RhMr8l/wAnjDWAsWLbNfGMJa1Uuz6v1jCjYb6r6ngTH1Gws9nV+08p5xrWNqk+gf2i5JT/AGrHqQYUQF2luyOcNadle0cAx+cSiHVbbWNnV+08vvGRqdzbFa+y71ivdZf6RXvsuLdbv+X3xXf8vvpn/9oACAEBAAY/AvulhfDzS52XCMgcCf1j6Ffa/wAar+EMQxGrHk7BzjefT4ArFoucXQlhd3t27H+IhE0XXH41SHa7aP20CqrJXYRvhSDqOhcOUeVOhcDB8ExNJS5QLPlArZIBJ8AIFn0bO383wteCHY1OYQKjAu4cwpJlBgSHcwtakBRSd+6DMQKhTeHcRhCgKLteYFVFQ67XxHAwfAcon+HsYmkAksEht9/pEpRDEWH+cInQjjyMTcqu+5neJgJqitffsjBptwltaO07VtV98Co7NrvfEfOFcOUT/D2MIYsVEksflC0kuXsc8Ym77oTx5QoukJJJesLombzZ6R+aXy/5yiqGcqe0ga4BJDk3AviBxhXDlGDRaVZSvYaCOMK4cvgz/ZgZWv8A1274JUb7GZ+zrg22AKt4Qli9l+vjCre9Z2q3y2QAFai/bbXs1xaopdSbuPpCvE3XYkcYVw5aEIX/ADVoQhfjoSYX4/gf/9oACAEBAQE/If5JzAGRQGZgsaAFHO56SijDPuIVAFGxe8j7+8OjrggiOOLO0tyXaGMC7iHYLR2oRiqfUM52iE7CKw+BiQbBMhQYiMa8seO3G1uKw9cLtFsdWPzViA9mXGrVWdseOQgRQioh6J7GzDf/ADKErik8xcHmPREIBi3MowOfY9HHisoD84MvNkRiIKgbB7DWNKsC3WhCd6hFjsDbpm4I8IgPAwCQQW5S6gX0xTUp6HqQYOg6wtsu+IlZ1sXF1m8B1WBlKhJoICFS/PgWvyNPGnwBAzW7NEIECWQjUY8+qeXYTrItwyeCNKtmnGuypCm0VhVEpjoCKNDZcjKzX6cBXpNAt7hvD24FvbsnTdqUlkHpqXg2AAou1Yl0sdQpJUv/ALBp0bIwygGhLvAMTbFMTuYORtqWoxSDDIGXlGBBh9K1IQKyBQKBuMOQqgAQAVJXLgdF2Sry2Q+M41IbBqqXK/ZcPpOyeNo/FnVSIQuFL5lLy7A0me6E6AHSE0pEAb1JHM4awgaAGos6sjWLbSj0sTSYVsAp7zCghJMe97DWGguCMApVG+6OSAZFVdgcuD4Gk87R6LvexnWDs9F3PYzxNB6LrPgzzNB6IFVFIS6mpP8AU//aAAwDAQECAQMBAAAQ884888888o86EZ88888o891fkY888o88lJGLXc8o84rQieOt8o846XJEI38o88Psc8888o886888888o88s888888owwwwwwwwwg/9oACAEDAQE/EOHgQz/2M09SuqIHzjDDgaMGNQ27/uPg+fIxsmTSqrATQFqVtU7Wllk6syeUZAsVxTQ5LrFASFQAFWjyT5/r5cjMT/rL5S4/fAoEmm55UVmADROjKe0Nkg79XwRqNCk0VVYXyOKwxBvlaH+WJ//aAAgBAgEBPxDh01aWzOHWckig4NBhpAn3EvLtCHwVR5VhMJ7mRCFXfCQK3T2iMjXZKxFAYSpbFquUdIFYOwxza5frh8qJhPrMPAaiuP2zLo+YXgfsO/y9k0Qhz1FIacyLSOacH6/P2fxh/9oACAEBAQE/EP5J/AoCpJYCNp3bsjV2ITnKgey6FTBWDGibYJLK5GiNQeO1g+R1Dq94AQGIAE1LMmOvJAr9qvKwQj5/XBOtfJMh8Vh45tibtPmBdZ1MPFT8hAIGNxNlWXOog24x02QTIiCHbtdsixawJsymb6pB9F/jcAQZvAPRSp8rQ4VkekZ+qREBNq5wDByHBMa9BiAW5hjHffMarD2S5fKak2s7rQ7ZKaqGqjlPCRRUAVOSHMazL1HNeO5ErodEzg2o2cA/Iwh+XhhzpD70O1qDL0hAyBr+Y5odvBVSH2UEZCsCHRlmqB9htq05l9iheQKIf4JcEwpceRRWHseHsZAzFNlrFCssRHIxBi4OUUobBAALudTL85Q1HbsEG2Mists2L2mWtpDTM31xhUwCbuRLkMYliMxKcEQ+TjLMqeYfRIYqViiiihGk2RcIpk3+DlO0wcQQVdw9YjDEdQROCQ+DO1YhYMTxRNAqtGwuAcb0zfNIVwQNq7Yio+gxrCpF5gYCox5eCGVqhyHg9H3YT3fRMlLE/RWl78RvaeiuqQJ+enoghAhIFgihB0MOZISGSSySbkk1/qf/2Q==" alt="Jatere Barber"/>
+    <span>Jatere Barber</span>
+  </div>
+  <div class="nav-links">
+    <a id="nl-inicio"    onclick="showPage('inicio')"    class="active">Inicio</a>
+    <a id="nl-barberos"  onclick="showPage('barberos')">Equipo</a>
+    <a id="nl-servicios" onclick="showPage('servicios')">Servicios</a>
+    <a id="nl-reservar"  onclick="showPage('reservar')">Reservar</a>
+    <a id="nl-ubicacion" onclick="showPage('ubicacion')">Ubicación</a>
+  </div>
+  <div class="nav-right">
+    <button class="nav-icon" onclick="window.open('https://instagram.com/jaterebarber','_blank')" title="Instagram">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+        <rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/>
+        <circle cx="17.5" cy="6.5" r=".8" fill="currentColor"/>
+      </svg>
+    </button>
+    <button class="nav-icon" onclick="window.open('tel:0981397313')" title="Llamar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+        <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 014.5 12.17 19.79 19.79 0 011.5 3.5a2 2 0 012-2.18h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L7.91 9.91a16 16 0 006.18 6.18l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/>
+      </svg>
+    </button>
+    <button class="btn-staff" onclick="showPage('login')">Acceso Staff</button>
+  </div>
+</nav>
+
+<!-- ══ INICIO ══════════════════════════════════════════════ -->
+<section class="page active" id="page-inicio">
+  <div class="hero-bg"></div>
+  <div class="hero-noise"></div>
+  <div class="hero-content">
+    <div class="hero-welcome">Bienvenidos a</div>
+    <img class="hero-logo" src="data:image/jpeg;base64,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" alt="Jatere Barber"/>
+    <div class="hero-divider"><span>Capiata · Paraguay</span></div>
+    <p class="hero-sub">Experiencia premium en cuidado masculino.<br>Donde el estilo se encuentra con la tradicion.</p>
+    <div class="hero-actions">
+      <button class="btn-primary" onclick="showPage('reservar')">Reservar Cita</button>
+      <button class="btn-outline" onclick="window.open('tel:0994 703557')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 014.5 12.17 19.79 19.79 0 011.5 3.5a2 2 0 012-2.18h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L7.91 9.91a16 16 0 006.18 6.18l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/>
+        </svg>
+        0994 703557
+      </button>
+    </div>
+    <div class="hero-meta">
+      <span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/>
+        </svg>
+        @jaterebarber
+      </span>
+      <div class="dot"></div>
+      <span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/>
+        </svg>
+        Capiata, Paraguay
+      </span>
+    </div>
+  </div>
+</section>
+
+<!-- ══ EQUIPO ══════════════════════════════════════════════ -->
+<section class="page sec-wrap" id="page-barberos">
+  <div class="sec-label">Nuestro Equipo</div>
+  <h2 class="sec-title">Los Barberos</h2>
+  <p class="sec-desc">Profesionales apasionados listos para darte el mejor corte.</p>
+  <div class="barberos-grid" id="barberos-grid">
+    <div class="loading">Cargando equipo...</div>
+  </div>
+</section>
+
+<!-- ══ SERVICIOS ═══════════════════════════════════════════ -->
+<section class="page sec-wrap" id="page-servicios">
+  <div class="sec-label">Nuestros Servicios</div>
+  <h2 class="sec-title">Lista de Precios</h2>
+  <p class="sec-desc">Servicios de alta calidad con productos premium para que luzcas impecable.</p>
+  <div class="services-grid" id="services-grid">
+    <div class="loading">Cargando servicios...</div>
+  </div>
+</section>
+
+<!-- ══ RESERVAR ════════════════════════════════════════════ -->
+<section class="page sec-wrap" id="page-reservar">
+  <div class="sec-label">Agenda tu Cita</div>
+  <h2 class="sec-title">Reservar Turno</h2>
+  <p class="sec-desc">Completá el formulario y te confirmamos por WhatsApp.</p>
+  <div class="reservar-layout">
+    <div class="form-card">
+      <h3>Información de Reserva</h3>
+      <div class="fg">
+        <label>Nombre y Apellido *</label>
+        <input class="fi" id="r-nombre" type="text" placeholder="Tu Nombre y Apellido"/>
+      </div>
+      <div class="fg">
+        <label>Teléfono *</label>
+        <input class="fi" id="r-tel" type="tel" placeholder="0981 123456"/>
+      </div>
+      <div class="fg">
+        <label>Servicio *</label>
+        <div class="sel-wrap">
+          <select class="fs" id="r-servicio" onchange="onFechaChange()">
+            <option value="">Selecciona un servicio</option>
+          </select>
+          <span class="sel-arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
+        </div>
+      </div>
+      <div class="fg">
+        <label>Barbero *</label>
+        <div class="sel-wrap">
+          <select class="fs" id="r-barbero" onchange="onFechaChange()">
+            <option value="">Selecciona un barbero</option>
+          </select>
+          <span class="sel-arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
+        </div>
+      </div>
+      <div class="fg">
+        <label>Fecha *</label>
+        <input class="fi" id="r-fecha" type="date" onchange="onFechaChange()"/>
+      </div>
+      <div class="fg">
+        <label>Hora *</label>
+        <div class="sel-wrap">
+          <select class="fs" id="r-hora">
+            <option>Primero seleccioná una fecha</option>
+          </select>
+          <span class="sel-arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
+        </div>
+      </div>
+      <button class="btn-confirm" id="btn-confirmar" onclick="confirmarReserva()">Confirmar Reserva</button>
+    </div>
+
+    <div class="hor-card">
+      <h3>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+        </svg>
+        Horarios
+      </h3>
+      <div id="horarios-lista">
+        <div class="loading">Cargando...</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ UBICACION ═══════════════════════════════════════════ -->
+<section class="page sec-wrap" id="page-ubicacion">
+  <div class="sec-label">Encontranos</div>
+  <h2 class="sec-title">Nuestra Ubicación</h2>
+  <p class="sec-desc">Visitanos en nuestra barbería en Capiata, Paraguay.</p>
+  <div class="ubic-layout">
+    <div class="map-box">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d57695!2d-57.45!3d-25.37!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zQ2FwaWF0YSwgUGFyYWd1YXk!5e0!3m2!1ses!2spy!4v1700000000000"
+        allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+        title="Ubicación Jatere Barber"></iframe>
+    </div>
+    <div class="info-stack">
+      <div class="ic">
+        <div class="ii"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+        <div><div class="il">Dirección</div><div class="iv">Capiata, Paraguay</div></div>
+      </div>
+      <div class="ic">
+        <div class="ii"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 014.5 12.17 19.79 19.79 0 011.5 3.5a2 2 0 012-2.18h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L7.91 9.91a16 16 0 006.18 6.18l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg></div>
+        <div><div class="il">Teléfono</div><div class="iv"><a href="tel:0981397313">0981 397313</a></div></div>
+      </div>
+      <div class="ic">
+        <div class="ii"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".8" fill="currentColor"/></svg></div>
+        <div><div class="il">Instagram</div><div class="iv"><a href="https://instagram.com/jaterebarber" target="_blank">@jaterebarber</a></div></div>
+      </div>
+      <div class="ic ic-hl">
+        <div class="ii"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+        <div><div class="il">Horario Hoy</div><div class="iv" id="horario-hoy" style="color:var(--gold)">Cargando...</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ LOGIN ═══════════════════════════════════════════════ -->
+<section class="page" id="page-login">
+  <div class="login-box" id="login-selector">
+    <div class="login-icon"><img src="data:image/jpeg;base64,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" alt="Logo"/></div>
+    <div class="login-title">Jatere Barber</div>
+    <div class="login-sub">Seleccioná tu tipo de acceso</div>
+    <div class="acc-opts">
+      <div class="acc-opt" onclick="showLoginForm('admin')">
+        <div class="acc-opt-l">
+          <div class="acc-opt-i">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+          </div>
+          <div>
+            <div class="acc-opt-n">Administrador</div>
+            <div class="acc-opt-d">Control total del sistema</div>
+          </div>
+        </div>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+      <div class="acc-opt" onclick="showLoginForm('recep')">
+        <div class="acc-opt-l">
+          <div class="acc-opt-i">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+              <rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
+            </svg>
+          </div>
+          <div>
+            <div class="acc-opt-n">Recepcionista</div>
+            <div class="acc-opt-d">Gestiona turnos, caja y clientes</div>
+          </div>
+        </div>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+      <div class="acc-opt" onclick="showLoginForm('barbero')">
+        <div class="acc-opt-l">
+          <div class="acc-opt-i">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+              <circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/>
+              <line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/>
+              <line x1="8.12" y1="8.12" x2="12" y2="12"/>
+            </svg>
+          </div>
+          <div>
+            <div class="acc-opt-n">Barbero</div>
+            <div class="acc-opt-d">Ve tu agenda y citas del día</div>
+          </div>
+        </div>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+    </div>
+    <div class="lalt" onclick="showPage('inicio')">Volver al sitio</div>
+  </div>
+
+  <div class="login-box lf" id="lf-admin" style="display:none">
+    <button class="lback" onclick="resetLogin()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg> Volver
+    </button>
+    <div class="login-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+    </div>
+    <div class="login-title">Administrador</div>
+    <div class="login-sub">Acceso al control total del sistema</div>
+    <div class="lerr" id="err-admin"></div>
+    <div class="li-wrap">
+      <div class="li-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>
+      <input class="fi-icon" id="a-user" type="text" placeholder="Tu usuario"/>
+    </div>
+    <div class="li-wrap">
+      <div class="li-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div>
+      <input class="fi-icon" id="a-pass" type="password" placeholder="Tu contraseña"
+        onkeydown="if(event.key==='Enter') doLogin('admin')"/>
+    </div>
+    <div class="creds"><strong>Credencial:</strong> admin / admin123</div>
+    <button class="btn-confirm" id="btn-login-admin" onclick="doLogin('admin')">Ingresar</button>
+    <div class="lalt" onclick="resetLogin()">Cambiar tipo de acceso</div>
+  </div>
+
+  <div class="login-box lf" id="lf-recep" style="display:none">
+    <button class="lback" onclick="resetLogin()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg> Volver
+    </button>
+    <div class="login-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+    </div>
+    <div class="login-title">Recepcionista</div>
+    <div class="login-sub">Gestión de turnos, clientes y caja</div>
+    <div class="lerr" id="err-recep"></div>
+    <div class="li-wrap">
+      <div class="li-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>
+      <input class="fi-icon" id="rc-user" type="text" placeholder="Tu usuario"/>
+    </div>
+    <div class="li-wrap">
+      <div class="li-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div>
+      <input class="fi-icon" id="rc-pass" type="password" placeholder="Tu contraseña"
+        onkeydown="if(event.key==='Enter') doLogin('recep')"/>
+    </div>
+    <div class="creds"><strong>Credencial:</strong> recepcion / recep123</div>
+    <button class="btn-confirm" id="btn-login-recep" onclick="doLogin('recep')">Ingresar</button>
+    <div class="lalt" onclick="resetLogin()">Cambiar tipo de acceso</div>
+  </div>
+
+  <div class="login-box lf" id="lf-barbero" style="display:none">
+    <button class="lback" onclick="resetLogin()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg> Volver
+    </button>
+    <div class="login-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/>
+        <line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/>
+        <line x1="8.12" y1="8.12" x2="12" y2="12"/>
+      </svg>
+    </div>
+    <div class="login-title">Barbero</div>
+    <div class="login-sub">Accedé a tu agenda del día</div>
+    <div class="lerr" id="err-barbero"></div>
+    <div class="li-wrap">
+      <div class="li-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>
+      <input class="fi-icon" id="b-user" type="text" placeholder="Tu usuario (ej: rafael)"/>
+    </div>
+    <div class="li-wrap">
+      <div class="li-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div>
+      <input class="fi-icon" id="b-pass" type="password" placeholder="Tu contraseña"
+        onkeydown="if(event.key==='Enter') doLogin('barbero')"/>
+    </div>
+    <div class="creds">
+      <strong>Barberos:</strong><br>
+      rafael / barber123 &nbsp;·&nbsp; axel / barber123<br>
+      benjamin / barber123 &nbsp;·&nbsp; gonsalo / barber123 &nbsp;·&nbsp; navid / barber123
+    </div>
+    <button class="btn-confirm" id="btn-login-barbero" onclick="doLogin('barbero')">Ingresar</button>
+    <div class="lalt" onclick="resetLogin()">Cambiar tipo de acceso</div>
+  </div>
+</section>
+
+<!-- ══ PANEL STAFF ══════════════════════════════════════════ -->
+<section class="page" id="page-panel">
+  <div class="panel-top">
+    <div>
+      <h2 id="panel-title">Panel</h2>
+      <p>Bienvenido, <span id="panel-nombre"></span> — <span id="panel-fecha"></span></p>
+    </div>
+    <div style="display:flex;gap:10px;align-items:center">
+      <div class="db-pill">
+        <div class="db-dot"></div>
+        <span>Sistema activo</span>
+      </div>
+      <button class="logout-btn" onclick="doLogout()">Cerrar sesión</button>
+    </div>
+  </div>
+  <div class="panel-body">
+    <div id="panel-tabs" class="ptabs"></div>
+    <div id="panel-content"><div class="loading">Cargando...</div></div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══════════════════════════════════════════════ -->
+<footer id="main-footer">
+  <div class="foot-inner">
+    <div class="foot-brand">
+      <div class="nav-logo" onclick="showPage('inicio')" style="cursor:pointer;margin-bottom:8px">
+        <img src="data:image/jpeg;base64,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" alt="Logo" style="width:28px;height:28px;object-fit:contain"/>
+        <span style="font-family:var(--serif);font-size:15px;color:var(--gold)">Jatere Barber</span>
+      </div>
+      <p>Barbería premium en Capiata, Paraguay.<br>Donde el estilo se encuentra con la tradicion.</p>
+      <div class="foot-soc">
+        <button class="soc-btn" onclick="window.open('https://instagram.com/jaterebarber','_blank')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/></svg>
+        </button>
+        <button class="soc-btn" onclick="window.open('tel:0994 703557')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 014.5 12.17 19.79 19.79 0 011.5 3.5a2 2 0 012-2.18h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L7.91 9.91a16 16 0 006.18 6.18l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="foot-col">
+      <h4>Contacto</h4>
+      <p>📞 0994 703557</p>
+      <p>📷 @jaterebarber</p>
+      <p>📍 Capiata, Paraguay</p>
+    </div>
+    <div class="foot-col">
+      <h4>Horarios</h4>
+      <div class="fhr"><span>Domingo</span><span>12:00 - 18:30</span></div>
+      <div class="fhr"><span>Lun - Sáb</span><span>09:00 - 21:00</span></div>
+    </div>
+  </div>
+</footer>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
