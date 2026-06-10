@@ -1,8 +1,4 @@
-// ══════════════════════════════════════════════════════════
-//  BARBERSHOP PRO — Frontend JS
-//  Conecta con el backend en /api/*
-//  Roles: admin | recepcionista | barbero | cliente
-// ══════════════════════════════════════════════════════════
+
 
 const API = ''; // vacío = mismo servidor; en dev: 'http://localhost:3001'
 
@@ -85,7 +81,7 @@ async function loadBarberos() {
 }
 
 // ══════════════════════════════════════════════════════════
-//  SERVICIOS (página pública)
+//  SERVICIOS
 // ══════════════════════════════════════════════════════════
 async function loadServicios() {
   const grid = document.getElementById('services-grid');
@@ -121,7 +117,7 @@ function irReservar(sid) {
 }
 
 // ══════════════════════════════════════════════════════════
-//  RESERVAR (formulario público)
+//  RESERVAR 
 // ══════════════════════════════════════════════════════════
 async function initReservar() {
   try {
@@ -268,7 +264,7 @@ function doLogout() {
 }
 
 // ══════════════════════════════════════════════════════════
-//  PANEL — despacho según rol
+//  PANEL
 // ══════════════════════════════════════════════════════════
 async function showPanel() {
   showPage('panel');
@@ -343,7 +339,7 @@ function setPTab(tab, btn) {
 }
 
 // ══════════════════════════════════════════════════════════
-//  AGENDA (barbero y recepción)
+//  AGENDA 
 // ══════════════════════════════════════════════════════════
 async function loadAgenda(rol) {
   const body = document.getElementById('panel-content');
@@ -405,7 +401,7 @@ async function cambiarEstado(id, estado, rol) {
 }
 
 // ══════════════════════════════════════════════════════════
-//  MÉTRICAS (admin)
+//  MÉTRICAS
 // ══════════════════════════════════════════════════════════
 async function loadMetricas() {
   const body = document.getElementById('panel-content');
@@ -441,7 +437,7 @@ async function loadMetricas() {
 }
 
 // ══════════════════════════════════════════════════════════
-//  TODAS LAS RESERVAS (admin)
+//  TODAS LAS RESERVAS 
 // ══════════════════════════════════════════════════════════
 async function loadTodasReservas() {
   const body = document.getElementById('panel-content');
@@ -453,7 +449,7 @@ async function loadTodasReservas() {
 }
 
 // ══════════════════════════════════════════════════════════
-//  SERVICIOS ADMIN — editar precios
+//  SERVICIOS ADMIN 
 // ══════════════════════════════════════════════════════════
 async function loadServiciosAdmin() {
   const body = document.getElementById('panel-content');
@@ -582,7 +578,7 @@ async function loadClientesAdmin() {
 }
 
 // ══════════════════════════════════════════════════════════
-//  NUEVA RESERVA (recepción)
+//  NUEVA RESERVA 
 // ══════════════════════════════════════════════════════════
 async function renderNuevaReservaForm() {
   const body = document.getElementById('panel-content');
@@ -674,7 +670,7 @@ async function crearReservaRecep() {
 }
 
 // ══════════════════════════════════════════════════════════
-//  CAJA (recepción)
+//  CAJA 
 // ══════════════════════════════════════════════════════════
 async function loadCaja() {
   const body = document.getElementById('panel-content');
@@ -732,7 +728,7 @@ async function registrarPago() {
 }
 
 // ══════════════════════════════════════════════════════════
-//  CLIENTES (recepción)
+//  CLIENTES 
 // ══════════════════════════════════════════════════════════
 async function loadClientesRecep() {
   const body = document.getElementById('panel-content');
@@ -773,7 +769,7 @@ async function buscarClientes(q) {
 }
 
 // ══════════════════════════════════════════════════════════
-//  MIS CLIENTES (barbero)
+//  MIS CLIENTES
 // ══════════════════════════════════════════════════════════
 async function loadMisClientes() {
   const body = document.getElementById('panel-content');

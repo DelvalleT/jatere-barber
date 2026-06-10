@@ -1,140 +1,139 @@
-// db.js — Base de datos con sql.js (no requiere compilación en Windows)
-const initSqlJs = require('sql.js');
-const bcrypt    = require('bcryptjs');
-const fs        = require('fs');
-const path      = require('path');
+// db.js — PostgreSQL (Railway compatible)
+require('dotenv').config();
+const { Pool } = require('pg');
+const bcrypt   = require('bcryptjs');
 
-const DB_PATH = path.join(__dirname, 'jatere.db');
-
-let db; // instancia global
+// Conexión — usa DATABASE_URL en Railway, variables individuales en local
+const pool = new Pool(
+  process.env.DATABASE_URL
+    ? {
+        connectionString: process.env.DATABASE_URL,
+        ssl: { rejectUnauthorized: false }
+      }
+    : {
+        user:     process.env.DB_USER     || 'postgres',
+        host:     process.env.DB_HOST     || 'localhost',
+        database: process.env.DB_NAME     || 'jatere_barber',
+        password: process.env.DB_PASSWORD || '',
+        port:     Number(process.env.DB_PORT) || 5432,
+      }
+);
 
 // ══════════════════════════════════════════════════════════
-//  HELPERS SÍNCRONOS que imitan la API de better-sqlite3
+//  HELPERS — misma API que antes para no romper server.js
 // ══════════════════════════════════════════════════════════
-function saveDb() {
-  const data = db.export();
-  fs.writeFileSync(DB_PATH, Buffer.from(data));
+
+// Equivale a all() — devuelve array de objetos
+async function all(sql, params = []) {
+  const { rows } = await pool.query(sql, params);
+  return rows;
 }
 
-// Devuelve TODOS los resultados como array de objetos
-function all(sql, params = []) {
-  try {
-    const stmt = db.prepare(sql);
-    stmt.bind(params);
-    const rows = [];
-    while (stmt.step()) {
-      rows.push(stmt.getAsObject());
-    }
-    stmt.free();
-    return rows;
-  } catch(e) {
-    throw new Error(`SQL Error (all): ${e.message}\nSQL: ${sql}`);
-  }
+// Equivale a get() — devuelve primer resultado
+async function get(sql, params = []) {
+  const { rows } = await pool.query(sql, params);
+  return rows[0];
 }
 
-// Devuelve el primer resultado o undefined
-function get(sql, params = []) {
-  return all(sql, params)[0];
-}
-
-// Ejecuta INSERT/UPDATE/DELETE, devuelve { lastInsertRowid, changes }
-function run(sql, params = []) {
-  try {
-    db.run(sql, params);
-    const lastInsertRowid = db.exec('SELECT last_insert_rowid() as id')[0]?.values[0][0] || 0;
-    return { lastInsertRowid };
-  } catch(e) {
-    throw new Error(`SQL Error (run): ${e.message}\nSQL: ${sql}`);
-  }
+// Equivale a run() — INSERT/UPDATE/DELETE
+async function run(sql, params = []) {
+  const result = await pool.query(sql, params);
+  return {
+    lastInsertRowid: result.rows[0]?.id || null,
+    changes: result.rowCount
+  };
 }
 
 // ══════════════════════════════════════════════════════════
 //  CREAR TABLAS
 // ══════════════════════════════════════════════════════════
-function createTables() {
-  db.run(`CREATE TABLE IF NOT EXISTS usuarios (
-    id         INTEGER PRIMARY KEY AUTOINCREMENT,
-    username   TEXT UNIQUE NOT NULL,
-    password   TEXT NOT NULL,
-    rol        TEXT NOT NULL,
-    nombre     TEXT NOT NULL,
-    activo     INTEGER DEFAULT 1,
-    creado_en  TEXT DEFAULT (datetime('now'))
-  )`);
+async function createTables() {
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS usuarios (
+      id         SERIAL PRIMARY KEY,
+      username   TEXT UNIQUE NOT NULL,
+      password   TEXT NOT NULL,
+      rol        TEXT NOT NULL,
+      nombre     TEXT NOT NULL,
+      activo     INTEGER DEFAULT 1,
+      creado_en  TIMESTAMP DEFAULT NOW()
+    );
 
-  db.run(`CREATE TABLE IF NOT EXISTS barberos (
-    id           INTEGER PRIMARY KEY AUTOINCREMENT,
-    usuario_id   INTEGER,
-    apodo        TEXT NOT NULL,
-    especialidad TEXT,
-    telefono     TEXT,
-    instagram    TEXT,
-    es_principal INTEGER DEFAULT 0,
-    activo       INTEGER DEFAULT 1,
-    orden        INTEGER DEFAULT 0
-  )`);
+    CREATE TABLE IF NOT EXISTS barberos (
+      id           SERIAL PRIMARY KEY,
+      usuario_id   INTEGER,
+      apodo        TEXT NOT NULL,
+      especialidad TEXT,
+      telefono     TEXT,
+      instagram    TEXT,
+      es_principal INTEGER DEFAULT 0,
+      activo       INTEGER DEFAULT 1,
+      orden        INTEGER DEFAULT 0
+    );
 
-  db.run(`CREATE TABLE IF NOT EXISTS servicios (
-    id           INTEGER PRIMARY KEY AUTOINCREMENT,
-    nombre       TEXT NOT NULL,
-    descripcion  TEXT,
-    precio_gs    INTEGER NOT NULL,
-    duracion_min INTEGER NOT NULL DEFAULT 30,
-    categoria    TEXT DEFAULT 'Corte',
-    icono        TEXT DEFAULT '✂',
-    es_premium   INTEGER DEFAULT 0,
-    activo       INTEGER DEFAULT 1
-  )`);
+    CREATE TABLE IF NOT EXISTS servicios (
+      id           SERIAL PRIMARY KEY,
+      nombre       TEXT NOT NULL,
+      descripcion  TEXT,
+      precio_gs    INTEGER NOT NULL,
+      duracion_min INTEGER NOT NULL DEFAULT 30,
+      categoria    TEXT DEFAULT 'Corte',
+      icono        TEXT DEFAULT '✂',
+      es_premium   INTEGER DEFAULT 0,
+      activo       INTEGER DEFAULT 1
+    );
 
-  db.run(`CREATE TABLE IF NOT EXISTS horarios (
-    id            INTEGER PRIMARY KEY AUTOINCREMENT,
-    dia_semana    INTEGER NOT NULL,
-    hora_apertura TEXT NOT NULL,
-    hora_cierre   TEXT NOT NULL,
-    activo        INTEGER DEFAULT 1
-  )`);
+    CREATE TABLE IF NOT EXISTS horarios (
+      id            SERIAL PRIMARY KEY,
+      dia_semana    INTEGER NOT NULL,
+      hora_apertura TEXT NOT NULL,
+      hora_cierre   TEXT NOT NULL,
+      activo        INTEGER DEFAULT 1
+    );
 
-  db.run(`CREATE TABLE IF NOT EXISTS clientes (
-    id              INTEGER PRIMARY KEY AUTOINCREMENT,
-    nombre_completo TEXT NOT NULL,
-    telefono        TEXT NOT NULL,
-    email           TEXT,
-    total_visitas   INTEGER DEFAULT 0,
-    notas_internas  TEXT,
-    creado_en       TEXT DEFAULT (datetime('now'))
-  )`);
+    CREATE TABLE IF NOT EXISTS clientes (
+      id              SERIAL PRIMARY KEY,
+      nombre_completo TEXT NOT NULL,
+      telefono        TEXT NOT NULL,
+      email           TEXT,
+      total_visitas   INTEGER DEFAULT 0,
+      notas_internas  TEXT,
+      creado_en       TIMESTAMP DEFAULT NOW()
+    );
 
-  db.run(`CREATE TABLE IF NOT EXISTS reservas (
-    id           INTEGER PRIMARY KEY AUTOINCREMENT,
-    cliente_id   INTEGER,
-    barbero_id   INTEGER,
-    servicio_id  INTEGER,
-    fecha        TEXT NOT NULL,
-    hora_inicio  TEXT NOT NULL,
-    hora_fin     TEXT NOT NULL,
-    estado       TEXT DEFAULT 'pendiente',
-    origen       TEXT DEFAULT 'web',
-    notas        TEXT,
-    precio_gs    INTEGER,
-    creado_en    TEXT DEFAULT (datetime('now'))
-  )`);
+    CREATE TABLE IF NOT EXISTS reservas (
+      id           SERIAL PRIMARY KEY,
+      cliente_id   INTEGER,
+      barbero_id   INTEGER,
+      servicio_id  INTEGER,
+      fecha        TEXT NOT NULL,
+      hora_inicio  TEXT NOT NULL,
+      hora_fin     TEXT NOT NULL,
+      estado       TEXT DEFAULT 'pendiente',
+      origen       TEXT DEFAULT 'web',
+      notas        TEXT,
+      precio_gs    INTEGER,
+      creado_en    TIMESTAMP DEFAULT NOW()
+    );
 
-  db.run(`CREATE TABLE IF NOT EXISTS caja (
-    id           INTEGER PRIMARY KEY AUTOINCREMENT,
-    reserva_id   INTEGER,
-    total_gs     INTEGER NOT NULL,
-    metodo_pago  TEXT DEFAULT 'efectivo',
-    notas        TEXT,
-    creado_en    TEXT DEFAULT (datetime('now'))
-  )`);
+    CREATE TABLE IF NOT EXISTS caja (
+      id           SERIAL PRIMARY KEY,
+      reserva_id   INTEGER,
+      total_gs     INTEGER NOT NULL,
+      metodo_pago  TEXT DEFAULT 'efectivo',
+      notas        TEXT,
+      creado_en    TIMESTAMP DEFAULT NOW()
+    );
+  `);
+  console.log('✅ Tablas creadas');
 }
 
 // ══════════════════════════════════════════════════════════
-//  SEED
+//  SEED — datos iniciales
 // ══════════════════════════════════════════════════════════
-function seed() {
-  const yaHay = get('SELECT COUNT(*) as n FROM usuarios');
-  if (yaHay && yaHay.n > 0) return;
+async function seed() {
+  const existe = await get('SELECT COUNT(*) as n FROM usuarios');
+  if (parseInt(existe?.n) > 0) return;
 
   console.log('🌱 Insertando datos iniciales...');
   const hash = p => bcrypt.hashSync(p, 10);
@@ -149,69 +148,81 @@ function seed() {
     ['gonzalo',   hash('barber123'), 'barbero',       'Gonzalo'],
     ['navid',     hash('barber123'), 'barbero',       'Navid'],
   ];
-  users.forEach(u => run('INSERT INTO usuarios (username,password,rol,nombre) VALUES (?,?,?,?)', u));
+  for (const u of users) {
+    await pool.query(
+      'INSERT INTO usuarios (username,password,rol,nombre) VALUES ($1,$2,$3,$4) ON CONFLICT (username) DO NOTHING',
+      u
+    );
+  }
 
-  // Barberos — buscar IDs de usuarios barberos
-  const getUid = name => get('SELECT id FROM usuarios WHERE username=?', [name])?.id;
+  // Barberos
+  const getUid = async name => {
+    const r = await get('SELECT id FROM usuarios WHERE username=$1', [name]);
+    return r?.id;
+  };
+
   const barberos = [
-    [getUid('rafael'),   'Rafael',   'Cortes de calidad y estilo','0981 000001', 0, 1],
-    [getUid('axel'),     'Axel',     'Cortes de calidad y estilo','0981 000002', 1, 2],
-    [getUid('benjamin'), 'Benjamín', 'Cortes de calidad y estilo','0981 000003', 0, 3],
-    [getUid('gonzalo'),  'Gonzalo',  'Cortes de calidad y estilo','0981 000004', 0, 4],
-    [getUid('navid'),    'Navid',    'Cortes de calidad y estilo','0981 000005', 0, 5],
+    ['rafael',   'Rafael',   'Cortes clásicos y modernos',  '0981 000001', 0, 1],
+    ['axel',     'Axel',     'Especialista en degradados',   '0981 000002', 1, 2],
+    ['benjamin', 'Benjamín', 'Diseños y arte en cabello',    '0981 000003', 0, 3],
+    ['gonzalo',  'Gonzalo',  'Barba y cuidado facial',       '0981 000004', 0, 4],
+    ['navid',    'Navid',    'Rituales premium y keratina',  '0981 000005', 0, 5],
   ];
-  barberos.forEach(b =>
-    run('INSERT INTO barberos (usuario_id,apodo,especialidad,telefono,es_principal,activo,orden) VALUES (?,?,?,?,?,1,?)', b)
-  );
+  for (const [username, apodo, esp, tel, principal, orden] of barberos) {
+    const uid = await getUid(username);
+    await pool.query(
+      'INSERT INTO barberos (usuario_id,apodo,especialidad,telefono,es_principal,activo,orden) VALUES ($1,$2,$3,$4,$5,1,$6)',
+      [uid, apodo, esp, tel, principal, orden]
+    );
+  }
 
   // Servicios
   const svcs = [
-    ['Corte Clásico',       'Corte tradicional con tijera y máquina',             80000,  30, 'Corte',   '✂',  0],
-    ['Corte + Barba',       'Corte completo con arreglo de barba',               120000,  50, 'Combo',   '🪒', 0],
-    ['Fade / Degradado',    'Degradado suave o skin fade con diseño',             90000,  40, 'Corte',   '✂',  0],
-    ['Arreglo de Barba',    'Perfilado y delineado completo de barba',            60000,  25, 'Barba',   '🪒', 0],
-    ['Corte + Fade + Barba','Servicio completo: corte, fade y barba',            150000,  70, 'Combo',   '⭐', 1],
+    ['Corte Clásico',        'Corte tradicional con tijera y máquina',            80000,  30, 'Corte', '✂',  0],
+    ['Corte + Barba',        'Corte completo con arreglo de barba',              120000,  50, 'Combo', '🪒', 0],
+    ['Fade / Degradado',     'Degradado suave o skin fade con diseño',            90000,  40, 'Corte', '✂',  0],
+    ['Arreglo de Barba',     'Perfilado y delineado completo de barba',           60000,  25, 'Barba', '🪒', 0],
+    ['Corte + Fade + Barba', 'Servicio completo: corte, fade y barba',           150000,  70, 'Combo', '⭐', 1],
   ];
-  svcs.forEach(s =>
-    run('INSERT INTO servicios (nombre,descripcion,precio_gs,duracion_min,categoria,icono,es_premium) VALUES (?,?,?,?,?,?,?)', s)
-  );
+  for (const s of svcs) {
+    await pool.query(
+      'INSERT INTO servicios (nombre,descripcion,precio_gs,duracion_min,categoria,icono,es_premium) VALUES ($1,$2,$3,$4,$5,$6,$7)',
+      s
+    );
+  }
 
   // Horarios
   const hors = [
-    [0, '12:00:00', '18:30:00'], // Domingo
-    [1, '09:00:00', '21:00:00'], // Lunes
-    [2, '09:00:00', '21:00:00'], // Martes
-    [3, '09:00:00', '21:00:00'], // Miércoles
-    [4, '09:00:00', '21:00:00'], // Jueves
-    [5, '09:00:00', '21:00:00'], // Viernes
-    [6, '09:00:00', '21:00:00'], // Sábado
+    [0, '12:00', '18:30'],
+    [1, '09:00', '21:00'],
+    [2, '09:00', '21:00'],
+    [3, '09:00', '21:00'],
+    [4, '09:00', '21:00'],
+    [5, '09:00', '21:00'],
+    [6, '09:00', '21:00'],
   ];
-  hors.forEach(h =>
-    run('INSERT INTO horarios (dia_semana,hora_apertura,hora_cierre,activo) VALUES (?,?,?,1)', h)
-  );
+  for (const h of hors) {
+    await pool.query(
+      'INSERT INTO horarios (dia_semana,hora_apertura,hora_cierre,activo) VALUES ($1,$2,$3,1)',
+      h
+    );
+  }
 
-  saveDb();
   console.log('✅ Datos iniciales cargados');
 }
 
 // ══════════════════════════════════════════════════════════
-//  INIT ASÍNCRONO
+//  INIT
 // ══════════════════════════════════════════════════════════
 async function initDb() {
-  const SQL = await initSqlJs();
+  await pool.connect()
+    .then(c => { console.log('✅ PostgreSQL conectado'); c.release(); })
+    .catch(e => { console.error('❌ PostgreSQL error:', e.message); throw e; });
 
-  if (fs.existsSync(DB_PATH)) {
-    const fileBuffer = fs.readFileSync(DB_PATH);
-    db = new SQL.Database(fileBuffer);
-    console.log('📂 Base de datos cargada desde', DB_PATH);
-  } else {
-    db = new SQL.Database();
-    console.log('🆕 Nueva base de datos creada');
-  }
+  await createTables();
+  await seed();
 
-  createTables();
-  seed();
-  return { all, get, run, saveDb };
+  return { all, get, run };
 }
 
 module.exports = { initDb };
