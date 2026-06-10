@@ -1,9 +1,11 @@
 // db.js — PostgreSQL (Railway compatible)
 require('dotenv').config();
-const { Pool } = require('pg');
-const bcrypt   = require('bcryptjs');
+const { Pool }  = require('pg');
+const bcrypt    = require('bcryptjs');
+const fs        = require('fs');
+const path      = require('path');
 
-// Conexión — usa DATABASE_URL en Railway, variables individuales en local
+// ── CONEXIÓN ─────────────────────────────────────────────
 const pool = new Pool(
   process.env.DATABASE_URL
     ? {
