@@ -6,11 +6,15 @@ const fs        = require('fs');
 const path      = require('path');
 
 // ── CONEXIÓN ─────────────────────────────────────────────
+const connString = process.env.DATABASE_PUBLIC_URL || process.env.DATABASE_URL;
+console.log('🔌 Conectando a:', connString?.slice(0, 40) + '...');
+
 const pool = new Pool(
-  process.env.DATABASE_URL
+  connString
     ? {
-        connectionString: process.env.DATABASE_URL,
-        ssl: { rejectUnauthorized: false }
+        connectionString: connString,
+        ssl: { rejectUnauthorized: false },
+        family: 4,
       }
     : {
         user:     process.env.DB_USER     || 'postgres',
