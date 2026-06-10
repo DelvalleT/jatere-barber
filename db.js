@@ -7,23 +7,14 @@ const path      = require('path');
 
 // ── CONEXIÓN ─────────────────────────────────────────────
 const connString = process.env.DATABASE_PUBLIC_URL || process.env.DATABASE_URL;
-console.log('🔌 Conectando a:', connString?.slice(0, 40) + '...');
+console.log('🔌 Conectando a:', connString?.slice(0, 50) + '...');
 
-const pool = new Pool(
-  connString
-    ? {
-        connectionString: connString,
-        ssl: { rejectUnauthorized: false },
-        family: 4,
-      }
-    : {
-        user:     process.env.DB_USER     || 'postgres',
-        host:     process.env.DB_HOST     || 'localhost',
-        database: process.env.DB_NAME     || 'jatere_barber',
-        password: process.env.DB_PASSWORD || '',
-        port:     Number(process.env.DB_PORT) || 5432,
-      }
-);
+const pool = new Pool({
+  connectionString: connString,
+  ssl: { rejectUnauthorized: false },
+  family: 4,
+  connectionTimeoutMillis: 10000,
+});
 
 // ══════════════════════════════════════════════════════════
 //  HELPERS — misma API que antes para no romper server.js
