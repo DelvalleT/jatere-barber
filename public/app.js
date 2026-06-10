@@ -1,6 +1,6 @@
 
 
-const API = ''; // vacío = mismo servidor; en dev: 'http://localhost:3001'
+const API = ''; 
 
 // ── FETCH HELPER ────────────────────────────────────────
 async function apiFetch(path, opts = {}) {
