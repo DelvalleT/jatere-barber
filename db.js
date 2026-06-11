@@ -162,7 +162,7 @@ async function seed() {
 
   const barberos = [
     ['rafael',   'Rafael',   'Cortes de calidad y estilo',  '0981 000001', 0, 1],
-    ['axel',     'Axel',     'Cortes de calidad y estilo',   '0981 000002', 1, 2],
+    ['axel',     'Axel',     'Cortes de calidad y estilo, especializado en diseño de peinado',   '0981 000002', 1, 2],
     ['benjamin', 'Benjamín', 'Cortes de calidad y estilo',    '0981 000003', 0, 3],
     ['gonzalo',  'Gonzalo',  'Cortes de calidad y estilo',       '0981 000004', 0, 4],
     ['navid',    'Navid',    'Cortes de calidad y estilo',  '0981 000005', 0, 5],
