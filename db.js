@@ -11,7 +11,7 @@ console.log('🔌 Conectando a:', connString?.slice(0, 50) + '...');
 
 const pool = new Pool({
   connectionString: connString,
-  ssl: { rejectUnauthorized: false },
+  ssl: false,
   family: 4,
   connectionTimeoutMillis: 10000,
 });
