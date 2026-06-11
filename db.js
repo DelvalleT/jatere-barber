@@ -6,7 +6,7 @@ const fs        = require('fs');
 const path      = require('path');
 
 // ── CONEXIÓN ─────────────────────────────────────────────
-const connString = process.env.DATABASE_PUBLIC_URL || process.env.DATABASE_URL;
+const connString =  process.env.DATABASE_URL;
 console.log('🔌 Conectando a:', connString?.slice(0, 50) + '...');
 
 const pool = new Pool({
