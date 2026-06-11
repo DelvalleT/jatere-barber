@@ -6,14 +6,16 @@ const fs        = require('fs');
 const path      = require('path');
 
 // ── CONEXIÓN ─────────────────────────────────────────────
-const connString =  process.env.DATABASE_URL;
+const connString = process.env.DATABASE_URL;
 console.log('🔌 Conectando a:', connString?.slice(0, 50) + '...');
 
 const pool = new Pool({
   connectionString: connString,
-  ssl: false,
+  ssl: { rejectUnauthorized: false },
   family: 4,
-  connectionTimeoutMillis: 10000,
+  connectionTimeoutMillis: 30000,
+  idleTimeoutMillis: 30000,
+  max: 5,
 });
 
 // ══════════════════════════════════════════════════════════
