@@ -161,11 +161,11 @@ async function seed() {
   };
 
   const barberos = [
-    ['rafael',   'Rafael',   'Cortes clásicos y modernos',  '0981 000001', 0, 1],
-    ['axel',     'Axel',     'Especialista en degradados',   '0981 000002', 1, 2],
-    ['benjamin', 'Benjamín', 'Diseños y arte en cabello',    '0981 000003', 0, 3],
-    ['gonzalo',  'Gonzalo',  'Barba y cuidado facial',       '0981 000004', 0, 4],
-    ['navid',    'Navid',    'Rituales premium y keratina',  '0981 000005', 0, 5],
+    ['rafael',   'Rafael',   'Cortes de calidad y estilo',  '0981 000001', 0, 1],
+    ['axel',     'Axel',     'Cortes de calidad y estilo',   '0981 000002', 1, 2],
+    ['benjamin', 'Benjamín', 'Cortes de calidad y estilo',    '0981 000003', 0, 3],
+    ['gonzalo',  'Gonzalo',  'Cortes de calidad y estilo',       '0981 000004', 0, 4],
+    ['navid',    'Navid',    'Cortes de calidad y estilo',  '0981 000005', 0, 5],
   ];
   for (const [username, apodo, esp, tel, principal, orden] of barberos) {
     const uid = await getUid(username);
@@ -177,11 +177,12 @@ async function seed() {
 
   // Servicios
   const svcs = [
-    ['Corte Clásico',        'Corte tradicional con tijera y máquina',            80000,  30, 'Corte', '✂',  0],
+    ['Corte Clásico',        'Corte tradicional con tijera y máquina',            35000,  30, 'Corte', '✂',  0],
     ['Corte + Barba',        'Corte completo con arreglo de barba',              120000,  50, 'Combo', '🪒', 0],
-    ['Fade / Degradado',     'Degradado suave o skin fade con diseño',            90000,  40, 'Corte', '✂',  0],
-    ['Arreglo de Barba',     'Perfilado y delineado completo de barba',           60000,  25, 'Barba', '🪒', 0],
-    ['Corte + Fade + Barba', 'Servicio completo: corte, fade y barba',           150000,  70, 'Combo', '⭐', 1],
+    ['Cejas',     'Perfilacion y estilización de cejas',            10000,  40, 'Corte', '✂',  0],
+    ['Corte + cejas/Lavado',     'Corte completo para un estilo de calidad',            45000,  40, 'Corte', '✂',  0],
+    ['Corte moderno',     'Estilo moderno, tu decides cual',            40000,  40, 'Corte', '✂',  0],
+    ['Corte + cejas + Barba', 'Servicio completo: corte, cejas y barba',           130000,  70, 'Combo', '⭐', 1],
   ];
   for (const s of svcs) {
     await pool.query(
